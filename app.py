@@ -340,12 +340,13 @@ with tab3:
                     marker=dict(color="#E74C3C", size=5, symbol="x"),
                 ))
 
-        # Refit vertical lines
-        for rd in refit_dates[-20:]:  # show last 20 refits
+        # Refit vertical lines — x must be a string; Timestamps cause Plotly to crash
+        for rd in refit_dates[-20:]:
+            rd_str = rd.strftime("%Y-%m-%d") if hasattr(rd, "strftime") else str(rd)
             fig_cal.add_vline(
-                x=rd, line_dash="dash", line_color="rgba(100,100,100,0.3)",
-                annotation_text="refit", annotation_position="top",
-                annotation_font_size=8,
+                x=rd_str,
+                line_dash="dash",
+                line_color="rgba(100,100,100,0.3)",
             )
 
         fig_cal.update_layout(
